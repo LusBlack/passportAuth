@@ -14,11 +14,14 @@ mongoose.connect(db, { useNewUrlParser: true})
    .then(() => console.log('MongoDB connected...'))
    .catch(err => console.log(err));
 console.log("brick");
-//EJS
+
+//EJS middleware
 //to handle layouts
 app.use(expressLayouts);
 app.set('view engine', 'ejs');
 
+//Bodyparser 
+app.use(express.urlendcoded({ extended: false }));
 
 //Routes
 app.use('/', require('./routes/index'));
