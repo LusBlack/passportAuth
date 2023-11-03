@@ -48,14 +48,15 @@ if(errors.length > 0) {
     //check if user already exists
     User.findOne({ email: email })
     .then(user => {
-        if(User) {
+        if(user) {
             //user exists
             errors.push({ msg: 'Email is already registered' });
             res.render('register', {
                 errors,
                 name,
                 email,
-                password
+                password,
+                password2
             });
 
         } 
@@ -78,7 +79,7 @@ if(errors.length > 0) {
                 .then(user => {
                     res.redirect('/login');
                 })
-                .catch(err => console.log(err));
+                .catch(err => console.log(err)); 
             }))
 
         //     // console.log(newUser)
