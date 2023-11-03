@@ -10,7 +10,8 @@ const app = express();
 const db = require('./config/keys').MongoURI;
 
 //connect to Mongo
-mongoose.connect(db, { useNewUrlParser: true})
+mongoose.connect(db, { useNewUrlParser: true,
+                       useUnifiedTopology: true,})
    .then(() => console.log('MongoDB connected...'))
    .catch(err => console.log(err));
 console.log("brick");
@@ -21,7 +22,8 @@ app.use(expressLayouts);
 app.set('view engine', 'ejs');
 
 //Bodyparser 
-app.use(express.urlendcoded({ extended: false }));
+//to handle and process data sent from client-side forms 
+app.use(express.urlencoded({ extended: false }));
 
 //Routes
 app.use('/', require('./routes/index'));
