@@ -66,6 +66,21 @@ if(errors.length > 0) {
                 password
             });
 
+            //Hash passcode
+            bcrypt.genSalt(10, (err, salt) =>
+            bcrypt.hash(newUser.password, salt, (err, hash) => {
+                if(err) throw err;
+                //set password to hashed
+
+                newUser.password = hash;
+                //save user
+                newUser.save()
+                .then(user => {
+                    res.redirect('/login');
+                })
+                .catch(err => console.log(err));
+            }))
+
         //     // console.log(newUser)
         //     // res.send('hello');
 
