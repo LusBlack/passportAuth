@@ -77,7 +77,8 @@ if(errors.length > 0) {
                 //save user
                 newUser.save()
                 .then(user => {
-                    res.redirect('/login');
+                    req.flash('success_msg', 'You are now registered and can log in');
+                    res.redirect('/users/login');
                 })
                 .catch(err => console.log(err)); 
             }))
@@ -89,10 +90,6 @@ if(errors.length > 0) {
         }
 
     })
-
-
-
-
 }
 
 });
