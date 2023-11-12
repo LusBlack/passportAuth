@@ -5,13 +5,15 @@ const passport = require('passport');
 
 //user model
 const User = require('../models/User');
+const { forwardAuthenticated } = require('../config/auth');
 
+//login page
 ////defines what happens when client makes a request
 
-router.get('/login', (req, res) => res.render('login'));
+router.get('/login', forwardAuthenticated ,(req, res) => res.render('login'));
 
 
-router.get('/register', (req, res) => res.render('register'));
+router.get('/register', forwardAuthenticated ,(req, res) => res.render('register'));
 
 //Register Handle
 router.post('/register', (req, res) => {
@@ -111,5 +113,12 @@ router.post('/login', (req, res, next) => {
 
 });
 
+
+//logout handle 
+router.get('/logout', (req, res) => {
+    req.logout(res.redirect('/users/login'));
+    req.flash('success_msg', 'ka chi fo');
+    //res.redirect('/users/login')
+});
 module.exports = router;
  
