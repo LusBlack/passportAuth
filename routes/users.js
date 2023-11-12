@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const passport = require('passport');
 
 //user model
 const User = require('../models/User');
@@ -20,7 +21,7 @@ router.post('/register', (req, res) => {
 
    //check required fields
    if(!name || !email || !password ||!password2) {
-    errors.push({ msg: 'Egbon fill in all fields' });
+    errors.push({ msg: 'Egbon, fill in all fields' });
 }
 
 //check passwords match
@@ -47,6 +48,7 @@ if(errors.length > 0) {
 
     //check if user already exists
     User.findOne({ email: email })
+    //then we compare the result of the db query stored in "user"
     .then(user => {
         if(user) {
             //user exists
@@ -74,7 +76,7 @@ if(errors.length > 0) {
                 //set password to hashed
 
                 newUser.password = hash;
-                //save user
+                //save user to database
                 newUser.save()
                 .then(user => {
                     req.flash('success_msg', 'You are now registered and can log in');
@@ -98,6 +100,16 @@ if(errors.length > 0) {
 // router.post('/login', (req, res) => {
 
 // })
+
+//login handle 
+router.post('/login', (req, res, next) => {
+    passport.authenticate('local', {
+        successRedirect: '/dashboard',
+        failureRedirect: '/users/login',
+        failureFlash: true
+    })(req, res, next);
+
+});
 
 module.exports = router;
  
